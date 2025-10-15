@@ -782,3 +782,152 @@ margin: 0 auto;
     gap: 1rem;
 
 }
+
+
+/* ========================================= */
+/* MOBILE RESPONSIVE STYLES            */
+/* (For screens 768px or smaller)        */
+/* ========================================= */
+
+@media (max-width: 768px) {
+
+    /* --- General Layout Fix --- */
+    .container, .container1 {
+        width: 90%; /* Fixed 1200px ko flexible banayein */
+        padding: 0;
+    }
+
+    /* --- Navbar --- */
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .nav-items {
+        padding: 0;
+        gap: 1.5rem;
+    }
+
+    /* --- Hero Section --- */
+    .hero-section {
+        flex-direction: column;
+        gap: 3rem;
+        margin: 2rem auto;
+        padding-bottom: 4rem;
+        text-align: center;
+    }
+    .hero-section-left {
+        order: 2; /* Text ko image ke neeche laayein */
+        margin-left: 0;
+        align-items: center;
+        gap: 1rem;
+    }
+    .hero-section-right {
+        order: 1; /* Image ko upar rakhein */
+        margin-right: 0;
+    }
+    .faded-text {
+        font-size: 3em; /* Font size chota karein */
+        left: 0;
+        right: 0;
+        text-align: center;
+        bottom: 0;
+    }
+    .hero-section-heading {
+        font-size: 2rem;
+    }
+    .hero-section-sub-heading {
+        font-size: 2.2rem;
+        line-height: 2.5rem;
+    }
+    .hero-section-description {
+        width: 100%; /* Poori width le */
+        font-size: 16px;
+    }
+    .my-photo {
+        width: 250px;
+        height: 290px;
+    }
+
+    /* --- Projects Section --- */
+    .page-header {
+        font-size: 50px;
+    }
+    .project-container {
+        padding: 1rem 0;
+        gap: 80px;
+    }
+    #project2, #project4 {
+        margin-left: 0; /* Extra margin hata dein */
+    }
+    .project-card {
+        width: 100%;
+        height: 400px; /* Thodi height adjust karein */
+    }
+    .project-number {
+        display: none; /* Mobile par number hide kar dein */
+    }
+    .project-content {
+        padding: 1em;
+        left: 0;
+        width: 90%;
+        gap: 0.5em;
+    }
+    .project-heading {
+        font-size: 30px;
+        line-height: 2.5rem;
+    }
+    .project-subHeading {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    /* --- Skills Section --- */
+    .skills-title {
+        font-size: 50px;
+        margin: 40px 0 20px;
+    }
+    .container1 {
+        flex-direction: column; /* Stack karein */
+        padding: 20px;
+        gap: 2rem;
+    }
+    .left, .right {
+        width: 100%; /* Poori width le */
+    }
+    .right {
+        margin-top: 20px; /* Extra margin kam karein */
+    }
+    .left h1 {
+        font-size: 32px;
+    }
+    .logo-container-skill{
+        display: none; /* Faded skills text ko mobile par hide kar dein */
+    }
+
+    /* --- Contact Me Section --- */
+    .contactus-heading {
+        font-size: 3em;
+    }
+    .contactus-sub-heading {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    .form {
+        width: 100%;
+        margin: 2rem 0;
+    }
+
+    /* --- Footer Section --- */
+    .footer {
+        padding: 2rem 1rem;
+    }
+    .footer-wrapper {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .footer-faded-text {
+        font-size: 3em;
+        text-align: center;
+    }
+}
