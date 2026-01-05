@@ -12,15 +12,14 @@
     --bgOrange: #e84949;
 }
 
-#wrapper{
-    height: 100vh;
-    overflow: auto;
-    overflow-x: hidden;
-}
-.container{
-    width: 1200px;
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 1rem;
     margin: 0 auto;
 }
+
 
 .navbar{
     display: flex;
@@ -77,6 +76,7 @@ a{
 .hero-section{
     position: relative;
     overflow: hidden;   /* 🔒 lock */
+    min-height: calc(100vh - 80px); /* navbar height */
 }
 
 /*.faded-text{
@@ -941,10 +941,10 @@ margin: 0 auto;
 }
 
 #wrapper{
-    height: 100vh;
-    overflow: auto;
+    min-height: 100vh;
     overflow-x: hidden;
 }
+
 .container{
     width: 1200px;
     margin: 0 auto;
@@ -1006,13 +1006,11 @@ a{
     display: flex;
     justify-content: center;
     align-items: center;
-    left: 2%;
-    gap: 1rem;
-    right: 2%;
+    gap: 2rem;
     margin: 4rem auto;
-    padding: 0 1rem;
-    padding-bottom: 8rem;
+    padding: 0 1rem 6rem;
 }
+
 
 
 
@@ -1996,5 +1994,13 @@ margin: 0 auto;
         flex-wrap: wrap;
     }
 }
+
+@media (max-width: 768px) {
+  .nav-items {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
 
 
