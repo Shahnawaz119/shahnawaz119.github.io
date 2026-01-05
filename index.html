@@ -24,7 +24,9 @@
                     <div><a href="#certifications">Certifications</a></div>
                     <div><a href="#resume">Resume</a></div>
                     <div><a href="#contactme">Contact</a></div>
-            </div>
+                </div>
+                <button id="theme-toggle" class="theme-btn">🌙</button>
+
 
             </div>
         </div>
@@ -439,5 +441,17 @@
         </footer>
         <script src="script.js"></script>
     </div>
+    <script>
+        const toggleBtn = document.getElementById("theme-toggle");
+
+        toggleBtn.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+
+            // icon change
+            toggleBtn.textContent =
+            document.body.classList.contains("dark") ? "☀️" : "🌙";
+        });
+    </script>
+
 </body>
 </html>

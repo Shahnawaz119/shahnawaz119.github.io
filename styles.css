@@ -10,6 +10,9 @@
 
 :root{
     --bgOrange: #e84949;
+    --bg-color: #ffffff;
+  --text-color: #222222;
+  --card-bg: #f2f2f2;
 }
 
 
@@ -59,8 +62,11 @@
 }
 
 .nav-items div a{
-    color: black;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
+
+
 
 a{
     text-decoration: none;
@@ -595,7 +601,7 @@ margin: 0 auto;
 .left h1 {
   font-size: 48px;
   line-height: 1.2;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 20px;
 }
 
@@ -605,7 +611,7 @@ margin: 0 auto;
 
 .left p {
   font-size: 15px;
-  color: #444;
+  color: var(--text-color);
   line-height: 1.6;
   margin-bottom: 15px;
   text-align: justify;
@@ -797,6 +803,7 @@ margin: 0 auto;
         flex-direction: column;
         align-items: center;
         gap: 1rem;
+        background-color: transparent;
     }
     .nav-items {
         padding: 0;
@@ -987,9 +994,7 @@ margin: 0 auto;
     cursor: pointer;
 }
 
-.nav-items div a{
-    color: black;
-}
+
 
 a{
     text-decoration: none;
@@ -1085,7 +1090,6 @@ a{
 
 .btn-pink:hover{
     border: solid 3px var(--bgOrange);
-    color: black;
 }
 
 .hero-section-right{
@@ -2003,4 +2007,39 @@ margin: 0 auto;
 }
 
 
+/* 🌙 Dark Mode Toggle Button */
+.theme-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+body.dark {
+  --bg-color: #0f172a;
+  --text-color: #e5e7eb;
+  --card-bg: #1e293b;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+body.dark .navbar{
+    background-color: #0b1220;
+}
+
+.nav-items div a:hover{
+    color: var(--bgOrange);
+}
+
+.theme-btn{
+    color: var(--text-color);
+}
+
+body.dark .icons img {
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.15));
+}
 
