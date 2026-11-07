@@ -358,47 +358,91 @@ function initThreeJsHero() {
   const dustPts = new THREE.Points(dustGeo, dustMat);
   scene.add(dustPts);
 
-  // Responsive Layout & Centering Logic
+  // Responsive Layout & Centering Logic (Device-Adaptive for Phone, Tablet & Laptop)
   let halfW = 4, halfH = 2.55, aspect = 1.6, baseX = 0, baseY = 0.05, baseScale = 1;
+  const heroSection = document.getElementById('hero');
+
   function updateLayout() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const isMobileNow = window.innerWidth < 768;
+    const currentDpr = Math.min(window.devicePixelRatio || 1, isMobileNow ? 1.5 : 2);
+    renderer.setPixelRatio(currentDpr);
+
+    // Use actual dimensions of hero container so WebGL buffer exactly matches CSS pixels
+    const w = (heroSection && heroSection.clientWidth) || window.innerWidth;
+    const h = (heroSection && heroSection.clientHeight) || window.innerHeight;
+
+    renderer.setSize(w, h, false);
+
     aspect = w / h;
     camera.aspect = aspect;
     camera.updateProjectionMatrix();
 
-    renderer.setSize(w, h, false);
-
     halfH = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
     halfW = halfH * aspect;
 
-    // Centered layout ensures the globe, orbits, and shapes are never cut off
-    if (aspect > 1.15) {
-      baseScale = Math.min(0.88, halfH / 3.3);
+    const isNarrow = aspect < 1.15 || w < 768;
+
+    if (!isNarrow) {
+      // Desktop / Tablet landscape:
+      // Centered with full cinematic scale
+      baseScale = Math.min(0.85, (halfH * 0.85) / 3.3);
       baseX = 0;
       baseY = 0.05;
     } else {
-      baseScale = Math.min(0.68, (halfW * 0.92) / 2.6);
+      // Mobile / Portrait screens:
+      // Width is the strict constraint. Outer orbit ring has radius 3.25.
+      // Scaling by (halfW * 0.82) / 3.25 guarantees the entire globe, all 3 rings,
+      // data arcs, satellites and floating solids fit 100% inside the phone screen width with 9% safety padding!
+      baseScale = Math.min(0.55, Math.max(0.18, (halfW * 0.82) / 3.25));
       baseX = 0;
-      baseY = 0;
+
+      // On mobile, the hero section is taller than 100vh due to stacked content.
+      // Position the globe vertically so it sits in the prime visual center of the initial phone viewport.
+      const viewportH = window.innerHeight;
+      const targetYpx = Math.min(h * 0.5, viewportH * 0.46);
+      baseY = halfH * (1.0 - 2.0 * (targetYpx / h));
+    }
+
+    if (globeMat && globeMat.uniforms && globeMat.uniforms.uPixel) {
+      globeMat.uniforms.uPixel.value = currentDpr;
+    }
+    if (dustMat && dustMat.uniforms && dustMat.uniforms.uPixel) {
+      dustMat.uniforms.uPixel.value = currentDpr;
     }
   }
+
   updateLayout();
   window.addEventListener('resize', updateLayout);
+  window.addEventListener('orientationchange', () => {
+    setTimeout(updateLayout, 150);
+  });
+  if (window.ResizeObserver && heroSection) {
+    const ro = new ResizeObserver(updateLayout);
+    ro.observe(heroSection);
+  }
 
-  // Pointer Interaction
+  // Pointer & Touch Interaction
   const ptr = { x: 0, y: 0, tx: 0, ty: 0, active: false };
-  window.addEventListener('pointermove', (e) => {
+  const onPointer = (clientX, clientY) => {
     const r = canvas.getBoundingClientRect();
-    if (e.clientY < r.top - 100 || e.clientY > r.bottom + 100) return;
-    ptr.tx = ((e.clientX - r.left) / r.width) * 2 - 1;
-    ptr.ty = -(((e.clientY - r.top) / r.height) * 2 - 1);
+    if (clientY < r.top - 100 || clientY > r.bottom + 100) return;
+    ptr.tx = ((clientX - r.left) / r.width) * 2 - 1;
+    ptr.ty = -(((clientY - r.top) / r.height) * 2 - 1);
     ptr.active = true;
+  };
+
+  window.addEventListener('pointermove', (e) => {
+    onPointer(e.clientX, e.clientY);
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      onPointer(e.touches[0].clientX, e.touches[0].clientY);
+    }
   }, { passive: true });
 
   // Intersection Observer to pause when scrolled away
   let isVisible = true;
-  const heroSection = document.getElementById('hero');
   if (heroSection) {
     const io = new IntersectionObserver(([entry]) => {
       isVisible = entry.isIntersecting;
